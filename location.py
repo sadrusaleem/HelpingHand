@@ -27,7 +27,7 @@ def getLatLngFromAddress(address):
         data_json = data.json()
         location = data_json.get('locations')[0] #possible locations, we just take first
         return location.get('feature').get('geometry')
-    except Exception, e:
+    except Exception:
         return None
 
 def get_nearest_facilities(x, y):
