@@ -30,45 +30,42 @@ def getLatLngFromAddress(address):
     except Exception, e:
         return None
 
-def get_nearest_facilities(lat, lng):
-    #our anchor location
+def get_nearest_facilities(x, y):
+    #our anchor location (the user's location)
     incidents = {
         "features": [
             {
                 "geometry": {
-                    "x": -122.4079,
-                    "y": 37.78356
+                    "x": x,
+                    "y": y
                 },
                 "attributes": {
-                    "Name": "Fire Incident 1",
-                    "Attr_TravelTime": 4
+                    "Name": "user_location"
                 }
             }
 
         ]
     }
 
-    #the list of places that we wanna compare distances for
+    #the list of shelters
     facilities = {
         "features": [
             {
                 "geometry": {
-                    "x": -24,
-                    "y": 42
+                    "x": -73.98135204156267,
+                    "y": 40.745374368133696
                 },
                 "attributes": {
-                    "Name": "Fire Station 34",
-                    "Attr_TravelTime": 4
+                    "Name": "Mainchance Drop-in Center"
                 }
             },
             {
                 "geometry": {
-                    "x": 55,
-                    "y": 86
+                    "x": -86.907479,
+                    "y": 40.745374368133696
                 },
                 "attributes": {
-                    "Name": "Fire Station 29",
-                    "Attr_TravelTime": 5
+                    "Name": "The Living Room Drop-in Center"
                 }
             }
         ]
@@ -80,13 +77,13 @@ def get_nearest_facilities(lat, lng):
         'incidents': json.dumps(incidents),
         'facilities': json.dumps(facilities)
     })
-
     import ipdb; ipdb.set_trace()
 
     return data.json()
 
 
-#print(getLatLngFromAddress('1430 Tremont St Boston MA 02120'))
-print(get_nearest_facilities(143, 23))
+lat_lng = getLatLngFromAddress('324 East 82nd street, NYC')
+
+print(get_nearest_facilities(-73.98135204156267, 40.745374368133696))
 
 
