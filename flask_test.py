@@ -41,18 +41,18 @@ def csv2json(filename,fieldnames):
 
 @app.route("/shelters")
 def shelters():
-    return csv2json("/Users/kmarathe/Desktop/code/helping_hand/shelters.csv",("Name","City","Borough","Address","Latitude","Longitude","StartTime","EndTime","ServiceType"))
+    return csv2json("dataset/shelters.csv",("Name","City","Borough","Address","Latitude","Longitude","StartTime","EndTime","ServiceType"))
 
 @app.route("/food/<username>")
 def food(username):
     counter=cache.get('counter')
     print(counter)
     x= cache.set('counter', counter+1)
-    return username+":"+str(counter)+":"+csv2json("/Users/kmarathe/Desktop/code/helping_hand/FacilityDetails.csv",("Name","Brief Description","Proximity","Street Address","City","State","Zip Code","Phone Number","Web Site","Hours of Operation"))
+    return username+":"+str(counter)+":"+csv2json("dataset/FacilityDetails.csv",("Name","Brief Description","Proximity","Street Address","City","State","Zip Code","Phone Number","Web Site","Hours of Operation"))
 
 @app.route("/food/<username>")
 def results(latitude, longitude, time):
-    
+    return
 
 if __name__ == "__main__":
     app.run(debug=True)
