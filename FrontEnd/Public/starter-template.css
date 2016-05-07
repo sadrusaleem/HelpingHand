@@ -7,3 +7,17 @@ body {
   background-color: grey;
   border-radius: 25px;
 }
+
+#css{
+	height: 100%;
+}
+
+#map-canvas {
+  margin:auto;
+  width: 85%;
+  height: 300px;
+  margin-bottom: 15px;
+  border:x;
+  text-align: center;
+
+}
