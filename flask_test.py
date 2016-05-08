@@ -160,10 +160,48 @@ def shelter_dist(lat, long, shelter):
     lat_shelter = float(shelter.lat)
     long_shelter = float(shelter.long)
     return np.power(np.power(lat-(lat_shelter),2) + np.power(long - (long_shelter),2),0.5)
-           
+    
+def hospitals_csv():   
+    shelters= []
+    reader = csv.DictReader(open("dataset/Health_Facility_General_Information.csv"), skipinitialspace=True)
+    for csv_row in reader:
+        try:
+            #line2 = line.replace("\"", "")
+            #csv_row = row.split(",") #returns a list ["1","50","60"]
+            #import ipdb ; ipdb.set_trace()
+            #Address 1,Facility Address 2,Facility City
+            if not csv_row['Facility City'] == "New York" or not csv_row['Short Description'] == "HOSP":
+                pass
+                        
+            #import ipdb ; ipdb.set_trace()
+
+            #address=""
+            name=csv_row['Facility Name']
+            address=csv_row['Facility Address 1']+","+csv_row['Facility Address 2'] + ","+ csv_row['Facility City']
+            #import ipdb ; ipdb.set_trace()
+            #lat_long=getLatLngFromAddress(address)
+            #import ipdb ; ipdb.set_trace()
+            #lat_long=latlong_cache.get(address)
+            long = csv_row['Facility Longitude']
+            lat = csv_row['Facility Latitude']
+            
+            service_type=3
+            daysOfWeek= ""
+            
+          
+            phone=csv_row['Facility Phone Number']
+            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
+            shelters.append(shelter)
+        except:
+            #import ipdb ; ipdb.set_trace()
+            print("Exception")
+            pass
+    return shelters
+    
 
 x = shelters_csv()
 y = facilities_csv()
+z = hospitals_csv()
 #if __name__ == "__main__":
 #    app.run(debug=True)
 
