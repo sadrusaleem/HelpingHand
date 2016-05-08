@@ -50,7 +50,7 @@ def hello_world():
         place['status'] = _get_random_status()
     
     
-    return json.dumps(data_json)
+    return jsonify(data = data_json)
 
 
 def _get_place_from_direction(dir):
