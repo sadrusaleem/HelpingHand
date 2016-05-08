@@ -99,8 +99,9 @@ def shelters_csv():
             
             service_type=1
             daysOfWeek=""
-            startTime=csv_row[7]
-            endTime=csv_row[8]
+            startTime=csv_row['StartTime']
+        
+            endTime=csv_row['StartTime']
             phone=""
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
             shelters.append(shelter)
