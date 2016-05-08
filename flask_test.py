@@ -5,7 +5,6 @@ Created on Sat May  7 14:31:59 2016
 @author: kmarathe
 """
 import os
-os.chdir("/Users/kmarathe/Desktop/code/helping_hand/HelpingHand")
 from flask import Flask
 import csv
 import json
