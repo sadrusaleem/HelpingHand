@@ -83,19 +83,20 @@ def csv2json(filename,fieldnames):
 
 def shelters_csv():
     shelters= []
-    for line in open("dataset/shelters.csv", 'r'):
+    reader = csv.reader(open("dataset/shelters.csv", "r"), skipinitialspace=True)
+    for csv_row in reader:
         try:
-            line2 = line.replace("\"", "")
-            csv_row = line2.split(",") #returns a list ["1","50","60"]
+            #line2 = line.replace("\"", "")
+            #csv_row = row.split(",") #returns a list ["1","50","60"]
             
-            name=csv_row[1]
-            address=csv_row[3]+","+csv_row[1]
+            name=csv_row['Name']
+            address=csv_row['Address']+","+csv_row['City']
+            import ipdb ; ipdb.set_trace()
             lat_long=getLatLngFromAddress(address)
             import ipdb ; ipdb.set_trace()
             long = lat_long['x']
             lat = lat_long['y']
-            lat=""
-            long=""
+            
             service_type=1
             daysOfWeek=""
             startTime=csv_row[7]
