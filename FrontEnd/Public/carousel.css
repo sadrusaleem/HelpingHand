@@ -4,6 +4,7 @@
 
 body {
   padding-bottom: 40px;
+  /* background-image: url("http://cdn.pcwallart.com/images/city-street-background-wallpaper-1.jpg"); */
 }
 
 /* Code added from the other css file */
@@ -22,12 +23,10 @@ body {
 }
 
 #map-canvas {
-  padding-top:50px;
   margin:auto;
-  width: 85%;
+  width: 100%;
   height: 600px;
   margin-bottom: 15px;
-  border-radius: 25px;
   }
 
 
@@ -64,6 +63,7 @@ body {
 .carousel {
   height: 500px;
   margin-bottom: 60px;
+  padding-bottom: 10px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -72,7 +72,7 @@ body {
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 500px;
+  height: 350px;
   background-color: #777;
 }
 .carousel-inner > .item > img {

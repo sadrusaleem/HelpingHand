@@ -7,7 +7,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
 
     <title>Helping Hand</title>
 
@@ -15,15 +14,8 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="carousel.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -91,6 +83,72 @@
       
     }
 
+    // $.getJSON( "https://helping-hand-sadrusaleem.c9users.io/", {}).done(function( data ) {
+    //   $.each( data.items, function( i, item ) {
+    //     console.log(i,item)
+    //   });
+    // });
+
+    // CROSS SITE XHR
+
+  var isIE8 = window.XDomainRequest ? true : false;
+  var invocation = createCrossDomainRequest();
+  var url = 'https://helping-hand-sadrusaleem.c9users.io/';
+
+  function createCrossDomainRequest(url, handler) {
+    var request;
+    if (isIE8) {
+      request = new window.XDomainRequest();
+      }
+      else {
+        request = new XMLHttpRequest();
+      }
+    return request;
+  }
+
+  function callOtherDomain() {
+    if (invocation) {
+      if(isIE8) {
+        invocation.onload = outputResult;
+        invocation.open("GET", url, true);
+        invocation.send();
+      }
+      else {
+        invocation.open('GET', url, true);
+        invocation.onreadystatechange = handler;
+        invocation.send();
+      }
+    }
+    else {
+      var text = "No Invocation TookPlace At All";
+      var textNode = document.createTextNode(text);
+      var textDiv = document.getElementById("textDiv");
+      textDiv.appendChild(textNode);
+    }
+  }
+
+  function handler(evtXHR) {
+    if (invocation.readyState == 4)
+    {
+      if (invocation.status == 200) {
+          outputResult();
+      }
+      else {
+        alert("Invocation Errors Occured");
+      }
+    }
+  }
+
+  function outputResult() {
+    var response = invocation.responseText;
+    // var textDiv = document.getElementById("textDiv");
+    // textDiv.innerHTML += response;
+    return(response);
+  }
+
+    // CROSS SITE XHR ends here
+
+
     var beaches = [
       ['Bondi Beach', -33.890542, 151.274856, 4],
       ['Coogee Beach', -33.923036, 151.259052, 5],
@@ -104,6 +162,11 @@
 
 
     function setMarkers(map) {
+      //Get the data from the json object
+      callOtherDomain();
+      var temp = outputResult();
+
+      console.log(temp);
       // Adds markers to the map.
 
       // Marker sizes are expressed as a Size of X,Y where the origin of the image
@@ -113,11 +176,12 @@
       // direction to the right and in the Y direction down.
       var image = {
         // url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-        // url: 'http://lalude.com/adesina/HelpingHandSupport/iconBurger1.png',
+        url: 'http://lalude.com/adesina/HelpingHandSupport/iconBed1.png',
         // url: 'http://lalude.com/adesina/HelpingHandSupport/iconBurger2.png',
-        url: 'http://lalude.com/adesina/HelpingHandSupport/beachflag.png',
+        // url: 'http://lalude.com/adesina/HelpingHandSupport/beachflag.png',
         // This marker is 20 pixels wide by 32 pixels high.
-        size: new google.maps.Size(20, 32),
+        //size: new google.maps.Size(20, 32),
+        size: new google.maps.Size(32, 32),
         // The origin for this image is (0, 0).
         origin: new google.maps.Point(0, 0),
         // The anchor for this image is the base of the flagpole at (0, 32).
@@ -148,10 +212,9 @@
 
   <body>
 
-    <div class="navbar-wrapper">
-      <div class="container">
+    
 
-        <nav class="navbar navbar-inverse navbar-static-top">
+        <nav class="navbar navbar-inverse navbar-static-top" style="background-color:white;padding-bottom:10px">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -172,18 +235,15 @@
           </div>
         </nav>
 
-      </div>
-    </div>
+     
 
 
    <!-- http://stackoverflow.com/questions/26841084/how-to-embed-google-map-using-bootstrap -->
-
-    <!-- Carousel
-        ================================================== -->
+<!--
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner" role="listbox">
             <div class="item active">
-              <img class="first-slide" src="http://wallpapercave.com/wp/EWb7LFn.jpg" alt="First slide" style="opacity:.4">
+              <img class="first-slide" src="http://cdn.pcwallart.com/images/city-street-background-wallpaper-1.jpg" alt="First slide" style="opacity:.4">
               <div class="container">
                 <div class="carousel-caption">
                   <h1>Welcome to Helping Hand!</h1>
@@ -192,14 +252,13 @@
                 </div>
               </div>
             </div>
-        </div><!-- /.carousel -->
+        </div> -->
+      <!-- THE MAP GOES HERE -->
+        <div class="google-map-canvas" id="map-canvas">
+        </div>
 
-    <!-- THE MAP GOES HERE -->
-    <div class="google-map-canvas" id="map-canvas">
-    </div>
+        <button type="button" onclick="callOtherDomain()" />
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf39gI74lhWdl2_4Uh5PvT0U9w2fH1Iu4&callback=initialize"
         async defer></script>
