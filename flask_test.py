@@ -11,6 +11,7 @@ import json
 from flask import jsonify
 from location import getLatLngFromAddress
 from datetime import datetime
+import sys
 
 datetime.now().strftime('%a')
 
@@ -156,10 +157,13 @@ def findClosestShelters(lat,long,shelters):
     return shelters
         
  
-def shelter_dist(lat, long, shelter):        
-    lat_shelter = float(shelter.lat)
-    long_shelter = float(shelter.long)
-    return np.power(np.power(lat-(lat_shelter),2) + np.power(long - (long_shelter),2),0.5)
+def shelter_dist(lat, long, shelter):
+    try:
+        lat_shelter = float(shelter.lat)
+        long_shelter = float(shelter.long)
+        return np.power(np.power(lat-(lat_shelter),2) + np.power(long - (long_shelter),2),0.5)
+    except:
+        return sys.float_info.max
     
 def hospitals_csv():   
     shelters= []

@@ -37,7 +37,7 @@ def _get_random_status():
     return randint(0,1)
 
 @app.route('/')
-@crossdomain(origin='*')
+#@crossdomain(origin='*')
 def hello_world():
     data_objs = places
     data_json = []
@@ -82,23 +82,20 @@ def hello_world2():
         data_json.append(_get_place_from_direction(dir))
 
 
-
     features_hospitals = []
     for hospital in hospitals:
         features_hospitals.append(_place_to_feature(hospital))
 
     features_hospitals = {'features': features_hospitals[:20]}
     directions_hospitals = get_nearest_facilities(long, lat, features_hospitals)['directions']
-
     for dir in directions_hospitals:
         data_json.append(_get_place_from_direction(dir))
 
     data_json.extend(shelters_serialized)
 
     for data in data_json:
-        data['status'] = _get_random_status()
-
-    #import ipdb; ipdb.set_trace()
+        if data:
+            data['status'] = _get_random_status()
 
     return jsonify(data = data_json)
 
