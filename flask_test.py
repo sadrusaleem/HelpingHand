@@ -91,9 +91,9 @@ def shelters_csv():
             
             name=csv_row['Name']
             address=csv_row['Address']+","+csv_row['City']
-            import ipdb ; ipdb.set_trace()
+            #import ipdb ; ipdb.set_trace()
             lat_long=getLatLngFromAddress(address)
-            import ipdb ; ipdb.set_trace()
+            #import ipdb ; ipdb.set_trace()
             long = lat_long['x']
             lat = lat_long['y']
             
@@ -101,7 +101,7 @@ def shelters_csv():
             daysOfWeek=""
             startTime=csv_row['StartTime']
         
-            endTime=csv_row['StartTime']
+            endTime=csv_row['EndTime']
             phone=""
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
             shelters.append(shelter)
@@ -109,6 +109,7 @@ def shelters_csv():
             pass
     return shelters
     
+
 shelters_csv()
 
 #if __name__ == "__main__":
