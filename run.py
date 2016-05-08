@@ -3,32 +3,33 @@ import os
 import json
 from crossdomain import crossdomain
 from flask_test import shelters_csv, facilities_csv
-from werkzeug.contrib.cache import SimpleCache
+from random import randint
 
-cache = SimpleCache()
 
 shelters = shelters_csv()
-import ipdb; ipdb.set_trace()
 facilities = facilities_csv()
-import ipdb; ipdb.set_trace()
 
-cache.set('shelters', shelters)
-cache.set('facilities', facilities)
 
 app = Flask(__name__)
+
+
+def _get_random_status():
+    return randint(0,1)
 
 @app.route('/')
 @crossdomain(origin='*')
 def hello_world():
-    data = [{'name': 'Test Shelter',
-            'address': '120 East 32nd St, New York',
-            'lat': 40.745374368133696,
-            'long': -73.98135204156267,
-            'service_type': 1,
-            'phone': '9545361686'
-    }]
+    data_objs = shelters + facilities
+    data_json = []
+
+    for obj in data_objs:
+        data_json.append(obj.serialize())
+
+    for place in data_json:
+        place['status'] = _get_random_status()
     
-    return json.dumps(data)
+    
+    return json.dumps(data_json)
 
 @app.route('/locations')
 def hello_world2(input):
