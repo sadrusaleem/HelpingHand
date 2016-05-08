@@ -61,12 +61,16 @@ def make_shelter(name, address, lat, long, service_type,daysofweek,starttime,end
 
 
 
-
-@app.route("/")
-def hello():
-    global counter
-    
-    return "Hello World! "+1
+latlong_cache = SimpleCache()
+ #jsonfile.write(out)
+with open("latlngs2.json",'r') as f:
+    for line in f:
+            try:
+                jfile = json.loads(line)
+                latlong_cache.set(jfile['address'],jfile)
+            except ValueError:
+                # Not yet a complete JSON value
+                pass  
 
 
 #from uber_rides.session import Session
@@ -91,10 +95,11 @@ def shelters_csv():
             name=csv_row['Name']
             address=csv_row['Address']+","+csv_row['City']
             #import ipdb ; ipdb.set_trace()
-            lat_long=getLatLngFromAddress(address)
+            #lat_long=getLatLngFromAddress(address)
             #import ipdb ; ipdb.set_trace()
-            long = lat_long['x']
-            lat = lat_long['y']
+            lat_long=latlong_cache.get(address)
+            long = lat_long['longitude']
+            lat = lat_long['latitude']
             
             service_type=1
             daysOfWeek=""
@@ -103,7 +108,7 @@ def shelters_csv():
             endTime=csv_row['EndTime']
             phone=""
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
-            #shelters.append(shelter)
+            shelters.append(shelter)
         except:
             pass
     return shelters
@@ -119,26 +124,27 @@ def facilities_csv():
             name=csv_row['Name']
             address=csv_row['Street Address']+","+csv_row['City']
             #import ipdb ; ipdb.set_trace()
-            lat_long=getLatLngFromAddress(address)
+            #lat_long=getLatLngFromAddress(address)
             #import ipdb ; ipdb.set_trace()
-            long = lat_long['x']
-            lat = lat_long['y']
+            lat_long=latlong_cache.get(address)
+            long = lat_long['longitude']
+            lat = lat_long['latitude']
             
             service_type=2
             daysOfWeek=""
           
             phone=csv_row['Phone Number']
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
-            #shelters.append(shelter)
+            shelters.append(shelter)
         except:
             #import ipdb ; ipdb.set_trace()
             print("Exception")
             pass
     return shelters
 
+x = shelters_csv()
+y = facilities_csv()
 #if __name__ == "__main__":
 #    app.run(debug=True)
 
-    
- #jsonfile.write(out)
     
