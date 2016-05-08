@@ -8,9 +8,13 @@ from location import get_nearest_facilities
 
 shelters = shelters_csv()
 facilities = facilities_csv()
-places = shelters + facilities
+places = facilities
 
 features = []
+shelters_serialized = []
+
+for shelter in shelters:
+    shelters_serialized.append(shelter.serialize())
 
 
 def _place_to_feature(place):
@@ -74,6 +78,8 @@ def hello_world2():
     data_json = []
     for dir in directions:
         data_json.append(_get_place_from_direction(dir))
+
+    data_json.extend(shelters_serialized)
 
     for data in data_json:
         data['status'] = _get_random_status()
