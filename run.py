@@ -2,12 +2,13 @@ from flask import Flask, jsonify, request
 import os
 import json
 from crossdomain import crossdomain
-from flask_test import shelters_csv, facilities_csv, findClosestShelters
+from flask_test import shelters_csv, facilities_csv, hospitals_csv, findClosestShelters
 from random import randint
 from location import get_nearest_facilities
 
 shelters = shelters_csv()
 facilities = facilities_csv()
+hospitals = hospitals_csv()
 places = facilities
 
 features = []
@@ -53,7 +54,7 @@ def hello_world():
 
 def _get_place_from_direction(dir):
     routeName = dir['routeName'].split('-')[1][1:]
-    for place in places:
+    for place in places + hospitals:
         if place.name == routeName:
             #import ipdb; ipdb.set_trace()
             return place.serialize()
@@ -66,6 +67,7 @@ def hello_world2():
     lat = float(request.args.get('lat'))
     long = float(request.args.get('long'))
     findClosestShelters(lat, long, places)
+    findClosestShelters(lat, long, hospitals)
 
     features = []
     for place in places:
@@ -77,6 +79,18 @@ def hello_world2():
 
     data_json = []
     for dir in directions:
+        data_json.append(_get_place_from_direction(dir))
+
+
+
+    features_hospitals = []
+    for hospital in hospitals:
+        features_hospitals.append(_place_to_feature(hospital))
+
+    features_hospitals = {'features': features_hospitals[:20]}
+    directions_hospitals = get_nearest_facilities(long, lat, features_hospitals)['directions']
+
+    for dir in directions_hospitals:
         data_json.append(_get_place_from_direction(dir))
 
     data_json.extend(shelters_serialized)
