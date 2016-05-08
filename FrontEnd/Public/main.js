@@ -131,6 +131,18 @@ var map;
     setMarkers(map);
   }
 
+  function createInfo(arr,marker){
+    var contentString ='<div id="content"><h1>' + arr[0] + '</h1><p><b>Address: </b>' + arr[5] + '</p><p><b>Phone Number: </b>' + arr[7] + '</p></div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+  }
+
     // CROSS SITE XHR ends here
 
 
@@ -158,7 +170,10 @@ var map;
                         jsonData.data[i].lat,
                         jsonData.data[i].long,
                         jsonData.data[i].service_type,
-                        parseInt(i)+1])
+                        parseInt(i)+1,
+                        jsonData.data[i].address,
+                        jsonData.data[i].status,
+                        jsonData.data[i].phone]);
       }
       console.log(locations)
 
@@ -175,15 +190,32 @@ var map;
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
       };
+      var bedGreen = {
+        url: 'http://lalude.com/adesina/HelpingHandSupport/iconBedOpen.png',
+        size: new google.maps.Size(32, 32),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 32)
+      };
       var food = {
         url: 'http://lalude.com/adesina/HelpingHandSupport/iconFood1.png',
         size: new google.maps.Size(32, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
       }
-      var cross = {
-        // url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+      var foodGreen = {
+        url: 'http://lalude.com/adesina/HelpingHandSupport/iconFoodOpen.png',
+        size: new google.maps.Size(32, 32),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 32)
+      }
+      var cross = {   
         url: 'http://lalude.com/adesina/HelpingHandSupport/iconDoctor1.png',
+        size: new google.maps.Size(32, 32),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(0, 32)
+      }
+      var crossGreen = {   
+        url: 'http://lalude.com/adesina/HelpingHandSupport/iconDoctorOpen.png',
         size: new google.maps.Size(32, 32),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(0, 32)
@@ -192,16 +224,30 @@ var map;
         coords: [1, 1, 1, 20, 18, 20, 18, 1],
         type: 'poly'
       };
+      var infoArr = [];
       for (var i = 0; i < locations.length; i++) {
         var imageType;
         var location = locations[i];
         if(location[3] == 1){
+          if(location[6] == 1){
+            imageType = bedGreen;
+          } else{
           imageType = bed;
+          }
         } else if(location[3] == 2){
+          if(location[6] == 1){
+            imageType = foodGreen;
+          } else{
           imageType = food;
+          }
         } else if(location[3] == 3){
+          if(location[6] == 1){
+            imageType = crossGreen;
+          } else{
           imageType = cross;
+          }
         }
+
 
         var marker = new google.maps.Marker({
           position: {lat: location[1], lng: location[2]},
@@ -211,5 +257,7 @@ var map;
           title: location[0],
           zIndex: location[4]
         });
+
+        createInfo(location,marker);
       }
     }
