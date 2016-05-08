@@ -5,7 +5,7 @@ Created on Sat May  7 14:31:59 2016
 @author: kmarathe
 """
 import os
-#os.chdir("/Users/kmarathe/Desktop/code/helping_hand/HelpingHand")
+os.chdir("/Users/kmarathe/Desktop/code/helping_hand/HelpingHand")
 from flask import Flask
 import csv
 import json
@@ -83,24 +83,28 @@ def csv2json(filename,fieldnames):
 
 def shelters_csv():
     shelters= []
-    for line in open("dataset/shelters.csv", 'r'):
-        try:
-            csv_row = line.split(",") #returns a list ["1","50","60"]
-            name=csv_row[1]
-            address=csv_row[4]+","+csv_row[2]
-            lat_long=getLatLngFromAddress(address)
-            import ipdb ; ipdb.set_trace()
-            long = lat_long['x']
-            lat = lat_long['y']
-            lat=""
-            long=""
-            service_type=1
-            daysOfWeek=""
-            startTime=csv_row[7]
-            endTime=csv_row[8]
-            phone=""
-            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
-            shelters.append(shelter)
+    with open("dataset/shelters.csv") as fp:
+        reader = csv.reader(fp, skipinitialspace=True)
+        for row in reader:
+            try:
+                csv_row = line.split(",",) #returns a list ["1","50","60"]
+                name=csv_row[1]
+                address=csv_row[3]+","+csv_row[1]
+                lat_long=getLatLngFromAddress(address)
+                import ipdb ; ipdb.set_trace()
+                long = lat_long['x']
+                lat = lat_long['y']
+                lat=""
+                long=""
+                service_type=1
+                daysOfWeek=""
+                startTime=csv_row[7]
+                endTime=csv_row[8]
+                phone=""
+                shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
+                shelters.append(shelter)
+            except:
+                pass
     return shelters
     
 shelters_csv()
