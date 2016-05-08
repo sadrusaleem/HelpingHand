@@ -12,6 +12,7 @@ from flask import jsonify
 from location import getLatLngFromAddress
 from datetime import datetime
 import sys
+import twilio.twiml
 
 datetime.now().strftime('%a')
 
@@ -186,8 +187,8 @@ def hospitals_csv():
             #lat_long=getLatLngFromAddress(address)
             #import ipdb ; ipdb.set_trace()
             #lat_long=latlong_cache.get(address)
-            long = csv_row['Facility Longitude']
-            lat = csv_row['Facility Latitude']
+            long = float(csv_row['Facility Longitude'])
+            lat = float(csv_row['Facility Latitude'])
             
             service_type=3
             daysOfWeek= ""

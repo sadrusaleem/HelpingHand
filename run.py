@@ -5,7 +5,9 @@ from crossdomain import crossdomain
 from flask_test import shelters_csv, facilities_csv, hospitals_csv, findClosestShelters
 from random import randint
 from location import get_nearest_facilities
-
+import twilio.twiml
+#from werkzeug.contrib.cache import SimpleCache
+#cache = SimpleCache()
 shelters = shelters_csv()
 facilities = facilities_csv()
 hospitals = hospitals_csv()
@@ -33,11 +35,13 @@ def _place_to_feature(place):
 app = Flask(__name__)
 
 
-def _get_random_status():
+def _get_random_status(name):
+    #if cache.get(name):
+     #   return cache.get(name)
     return randint(0,1)
 
 @app.route('/')
-#@crossdomain(origin='*')
+@crossdomain(origin='*')
 def hello_world():
     data_objs = places
     data_json = []
@@ -46,7 +50,7 @@ def hello_world():
         data_json.append(obj.serialize())
 
     for place in data_json:
-        place['status'] = _get_random_status()
+        place['status'] = _get_random_status(place['name'])
     
     
     return jsonify(data = data_json)
@@ -89,15 +93,40 @@ def hello_world2():
     features_hospitals = {'features': features_hospitals[:20]}
     directions_hospitals = get_nearest_facilities(long, lat, features_hospitals)['directions']
     for dir in directions_hospitals:
-        data_json.append(_get_place_from_direction(dir))
+        to_add = _get_place_from_direction(dir)
+        if to_add:
+            data_json.append(to_add)
 
     data_json.extend(shelters_serialized)
 
     for data in data_json:
         if data:
-            data['status'] = _get_random_status()
+            data['status'] = _get_random_status(data['name'])
 
     return jsonify(data = data_json)
+
+@app.route("/sms", methods=['GET', 'POST'])
+def respond():
+    body = request.values.get('Body', None)
+    print body
+    parts = body.split("*")
+    if update_status(parts[0], parts[1]):
+        print 'yay'
+    else:
+        print 'nah'
+    resp = twilio.twiml.Response()
+    resp.sms('We have updated the ' + parts[0] + " shelter to have a status of " + parts[1])
+    return str(resp)
+
+def update_status(name, new_status):
+    if new_status in ('closed', 'open'):
+        if new_status == 'closed':
+            cache.set(name, 0)
+        else:
+            cache.set(name, 1)
+        
+        return True
+    return False
 
 if __name__ == "__main__":
     app.run(debug=True,
