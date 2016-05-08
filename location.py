@@ -2,7 +2,7 @@ import requests  # pip install requests
 import json
 
 # generate a token with your client id and client secret
-TOKEN = 'Qtm1OymG8oVOFIeUKTq6RfsYwwZylOpXJOgNpt-OBVXnn0PDQl_eWZ2ktOH-A-SbyF3MFWSsBQ1m-mTkrbVtYPcu0NL9nbsr3-hzHB8j_Vz6jBZ9XZPZKDJ9EA8I-JBI_XNSAjkFaCSPHdDcfz6WxQ..'
+TOKEN = 'J5C_V0i7WaDtYRgMwfr4zYECD3LRIWvsuxIRdf9ODr3HBuPbNZnOlnmypjdwO2N4KMrZVK89-Efbvj8rpXKZvR0TvbuGmKj_SC665k0ZyF0UoI75fU90g2v0jqblTM0f2GIknQSH2DctSrwUprrELA..'
 # url to geocode an address
 GEOCODING_URL = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find'
 # url to find closest shelter/pantry
@@ -26,12 +26,7 @@ def getLatLngFromAddress(address):
         return None
 
 
-def get_nearest_facilities(x, y):
-    # our anchor location (the user's location)
-
-    # incidents = '-73.9851, 40.7589;'
-    # incidents = '-122.4496,37.7467'
-
+def get_nearest_facilities(x, y, features):
     incidents = {
         "features": [
             {
@@ -46,40 +41,18 @@ def get_nearest_facilities(x, y):
         ]
     }
 
-    facilities = {
-        "features": [
-            {
-                "geometry": {
-                    "x": -73.98135204156267,
-                    "y": 40.745374368133696
-                },
-                "attributes": {
-                    "Name": "Mainchance Drop-in Center"
-                }
-            },
-            {
-                "geometry": {
-                    "x": -75.907479,
-                    "y": 40.745374368133696
-                },
-                "attributes": {
-                    "Name": "The Living Room Drop-in Center"
-                }
-            }
-        ]
-    }
 
     data = requests.post(CLOSEST_URL, params={
         'f': 'json',
         'token': TOKEN,
         'incidents': json.dumps(incidents),
-        'facilities': json.dumps(facilities),
+        'facilities': json.dumps(features),
         'returnDirections': True,
-        'defaultTargetFacilityCount': 10
+        'defaultTargetFacilityCount': 5
     })
-    import ipdb; ipdb.set_trace()
+    #import ipdb; ipdb.set_trace()
 
-    return data.json()
+    #import ipdb; ipdb.set_trace()
 
-#lat_lng = getLatLngFromAddress('2634 30th St Astoria, New York')
-#print(get_nearest_facilities(lat_lng['x'], lat_lng['y']))
+    return data.json()  # lat_lng = getLatLngFromAddress('2634 30th St Astoria, New York')
+# print(get_nearest_facilities(lat_lng['x'], lat_lng['y']))
