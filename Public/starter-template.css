@@ -1,0 +1,22 @@
+body {
+  padding-top: 75px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  background-color: grey;
+  border-radius: 25px;
+}
+
+#css{
+	height: 100%;
+}
+
+#map-canvas {
+  padding-top:50px;
+  margin:auto;
+  width: 85%;
+  height: 300px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  }
