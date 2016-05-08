@@ -83,28 +83,28 @@ def csv2json(filename,fieldnames):
 
 def shelters_csv():
     shelters= []
-    with open("dataset/shelters.csv") as fp:
-        reader = csv.reader(fp, skipinitialspace=True)
-        for row in reader:
-            try:
-                csv_row = line.split(",",) #returns a list ["1","50","60"]
-                name=csv_row[1]
-                address=csv_row[3]+","+csv_row[1]
-                lat_long=getLatLngFromAddress(address)
-                import ipdb ; ipdb.set_trace()
-                long = lat_long['x']
-                lat = lat_long['y']
-                lat=""
-                long=""
-                service_type=1
-                daysOfWeek=""
-                startTime=csv_row[7]
-                endTime=csv_row[8]
-                phone=""
-                shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
-                shelters.append(shelter)
-            except:
-                pass
+    for line in open("dataset/shelters.csv", 'r'):
+        try:
+            line2 = line.replace("\"", "")
+            csv_row = line2.split(",") #returns a list ["1","50","60"]
+            
+            name=csv_row[1]
+            address=csv_row[3]+","+csv_row[1]
+            lat_long=getLatLngFromAddress(address)
+            import ipdb ; ipdb.set_trace()
+            long = lat_long['x']
+            lat = lat_long['y']
+            lat=""
+            long=""
+            service_type=1
+            daysOfWeek=""
+            startTime=csv_row[7]
+            endTime=csv_row[8]
+            phone=""
+            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
+            shelters.append(shelter)
+        except:
+            pass
     return shelters
     
 shelters_csv()
