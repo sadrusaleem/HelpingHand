@@ -6,6 +6,30 @@ body {
   padding-bottom: 40px;
 }
 
+/* Code added from the other css file */
+
+body {
+  /* padding-top: 75px; */
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  background-color: grey;
+}
+
+#css{
+  height: 100%;
+}
+
+#map-canvas {
+  padding-top:50px;
+  margin:auto;
+  width: 85%;
+  height: 600px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  }
+
 
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */

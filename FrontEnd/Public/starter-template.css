@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 75px;
 }
 .starter-template {
   padding: 40px 15px;
@@ -13,11 +13,10 @@ body {
 }
 
 #map-canvas {
+  padding-top:50px;
   margin:auto;
   width: 85%;
   height: 300px;
   margin-bottom: 15px;
-  border:x;
-  text-align: center;
-
-}
+  border-radius: 25px;
+  }
