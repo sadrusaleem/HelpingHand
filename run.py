@@ -6,8 +6,8 @@ from flask_test import shelters_csv, facilities_csv, hospitals_csv, findClosestS
 from random import randint
 from location import get_nearest_facilities
 import twilio.twiml
-#from werkzeug.contrib.cache import SimpleCache
-#cache = SimpleCache()
+from werkzeug.contrib.cache import SimpleCache
+cache = SimpleCache()
 shelters = shelters_csv()
 facilities = facilities_csv()
 hospitals = hospitals_csv()
@@ -36,8 +36,8 @@ app = Flask(__name__)
 
 
 def _get_random_status(name):
-    #if cache.get(name):
-     #   return cache.get(name)
+    if cache.get(name):
+        return cache.get(name)
     return randint(0,1)
 
 @app.route('/')
