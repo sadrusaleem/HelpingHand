@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import os
 import json
 from crossdomain import crossdomain
-from flask_test import shelters_csv, facilities_csv
+from flask_test import shelters_csv, facilities_csv, findClosestShelters
 from random import randint
 from location import get_nearest_facilities
 
@@ -23,12 +23,6 @@ def _place_to_feature(place):
             "Name": place.name
         }
     }
-
-
-for place in places:
-    features.append(_place_to_feature(place))
-
-features = {'features': features[:10]} #TODO: figure out smart way to shorten down list
 
 
 app = Flask(__name__)
@@ -67,7 +61,13 @@ def _get_place_from_direction(dir):
 def hello_world2():
     lat = float(request.args.get('lat'))
     long = float(request.args.get('long'))
-    #import ipdb; ipdb.set_trace()
+    findClosestShelters(lat, long, places)
+
+    features = []
+    for place in places:
+        features.append(_place_to_feature(place))
+
+    features = {'features': features[:20]}
 
     directions = get_nearest_facilities(long, lat, features)['directions']
 

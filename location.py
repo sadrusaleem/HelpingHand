@@ -48,7 +48,7 @@ def get_nearest_facilities(x, y, features):
         'incidents': json.dumps(incidents),
         'facilities': json.dumps(features),
         'returnDirections': True,
-        'defaultTargetFacilityCount': 5
+        'defaultTargetFacilityCount': 10
     })
     #import ipdb; ipdb.set_trace()
 
