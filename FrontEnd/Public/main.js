@@ -1,4 +1,6 @@
 var map;
+var posLat;
+var posLong;
     $( "#startButton" ).click(function() {
       alert( "Handler for .click() called." );
       console.log("Button was clicked");
@@ -8,6 +10,12 @@ var map;
         console.log( "ready!" );
         initialize();
     });
+
+
+    function clearMap(){
+      //function to clear all the markers off of the map
+      map.setMapOnAll(null);
+    }
 
     function initialize() {
       callOtherDomain();
@@ -31,6 +39,8 @@ var map;
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
+            posLat = position.coords.latitude;
+            posLong= position.coords.longitude;
 
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
@@ -123,6 +133,32 @@ var map;
     }
   }
 
+  function displayOverlay() {
+      console.log("Making the Overlay");
+      $("<table id='overlay' style='height:50px;;vertical-align:center' <tr><td>" +
+        "<button type='button' class='btn btn-primary' onclick='removeOverlay()'>Close</button>"+
+        "</td><td><h2>Settings Page</h2></td></tr><tr><td><h2>Sort By:</h2></td></tr><tr><td>Food</td><td>Checkbox</td></tr></table>").css({
+          "position": "fixed",
+          "top": 0,
+          "left": 0,
+          "width": "100%",
+          "height": "100%",
+          "background-color": "rgba(0,0,0,.8)",
+          "z-index": 10000,
+          "vertical-align": "middle",
+          "text-align": "center",
+          "color": "#fff",
+          "font-size": "30px",
+          "font-weight": "bold",
+          "cursor": "wait"
+      }).appendTo("body");
+  }
+
+  function removeOverlay() {
+      $("#overlay").remove();
+  }
+
+
   function outputResult() {
     var response = invocation.responseText;
     // var textDiv = document.getElementById("textDiv");
@@ -132,7 +168,8 @@ var map;
   }
 
   function createInfo(arr,marker){
-    var contentString ='<div id="content"><h1>' + arr[0] + '</h1><p><b>Address: </b>' + arr[5] + '</p><p><b>Phone Number: </b>' + arr[7] + '</p></div>';
+    var contentString ='<div id="content"><h1>' + arr[0] + '</h1><p><b>Address: </b>' + arr[5] + '</p><p><b>Phone Number: </b>' + arr[7] + '</p>'+
+                        '<a href="uber://?client_id=wenxPDIJbS2ghQ7CFbk5zytwWnjiWp1b&action=setPickup&pickup=my_location&dropoff[latitude]=' + arr[1] + '&dropoff[longitude]=' + arr[2] + '&dropoff[nickname]=' + arr[0] + '">Catch a Uber</div>';
 
     var infowindow = new google.maps.InfoWindow({
         content: contentString

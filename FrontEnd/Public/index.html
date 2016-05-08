@@ -44,14 +44,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Helping Hand</a>
+              <a class="navbar-brand" href="#">
+                  <img alt="Brand" src="http://lalude.com/adesina/HelpingHandSupport/logo.png" style="height: 40px;">
+              </a>
+        </div>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
+            <div class="container">
+            <div id="navbar" class="navbar-collapse collapse navbar-right">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
               </ul>
+            </div>
             </div>
           </div>
         </nav>
@@ -78,8 +83,11 @@
         <div class="google-map-canvas" id="map-canvas">
         </div>
 
-        <button type="button" onclick="callOtherDomain()" />
-
+        <div>
+        <p style="text-align:center">
+          <button type="button" class="btn btn-primary" onclick="displayOverlay()">About</button>
+        </p>
+        </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf39gI74lhWdl2_4Uh5PvT0U9w2fH1Iu4&callback=initialize"
         async defer></script>
