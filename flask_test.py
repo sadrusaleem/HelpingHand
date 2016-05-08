@@ -109,9 +109,38 @@ def shelters_csv():
             pass
     return shelters
     
+def facilities_csv():
+    shelters= []
+    reader = csv.DictReader(open("dataset/FacilityDetails.csv"), skipinitialspace=True)
+    for csv_row in reader:
+        try:
+            #line2 = line.replace("\"", "")
+            #csv_row = row.split(",") #returns a list ["1","50","60"]
+            #import ipdb ; ipdb.set_trace()
+            name=csv_row['Name']
+            address=csv_row['Street Address']+","+csv_row['City']
+            #import ipdb ; ipdb.set_trace()
+            lat_long=getLatLngFromAddress(address)
+            #import ipdb ; ipdb.set_trace()
+            long = lat_long['x']
+            lat = lat_long['y']
+            
+            service_type=2
+            daysOfWeek=""
+          
+            phone=csv_row['Phone Number']
+            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
+            shelters.append(shelter)
+        except:
+            #import ipdb ; ipdb.set_trace()
+            print("Exception")
+            pass
+    return shelters
+    
 
-shelters_csv()
 
+shelters = shelters_csv()
+facilities = facilities_csv()
 #if __name__ == "__main__":
 #    app.run(debug=True)
 
