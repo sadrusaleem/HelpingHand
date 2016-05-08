@@ -8,6 +8,7 @@ Created on Sat May  7 14:31:59 2016
 from flask import Flask
 import csv
 import json
+from flask import jsonify
 
 
 from werkzeug.contrib.cache import SimpleCache
@@ -42,6 +43,16 @@ class Shelter(object):
         self.startTime = starttime
         self.endTime = endtime
         self.phone = phone
+        
+    def serialize(self):
+        return {
+           'name' : self.name,
+           'address': self.address,
+           'lat': self.lat,
+           'long': self.long,
+           'service_type': self.service_type,
+           'phone': self.phone
+        }
         
 def make_shelter(name, address, lat, long, service_type,daysofweek,starttime,endtime,phone):
     shelter = Shelter(name, address, lat, long, service_type,daysofweek,starttime,endtime,phone)
@@ -99,15 +110,15 @@ def csv2json(filename,fieldnames):
     return out
 
 fields=["name","address","lat","long","service_type","daysofweek","starttime","endtime","phone"]
-def shelters_csv(filename,fieldnames):
+def shelters_csv(filename):
     shelters= []
     for line in open(filename, 'r'):
         csv_row = line.split(sep=",") #returns a list ["1","50","60"]
         name=csv_row[1]
         address=csv_row[4]+","+csv_row[2]
         lat_long=getLatLngFromAddress(address)
-        #long = lat_long['x']
-        #lat = lat_long['y']
+        long = lat_long['x']
+        lat = lat_long['y']
         lat=""
         long=""
         service_type=1
