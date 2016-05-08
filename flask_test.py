@@ -10,7 +10,9 @@ import csv
 import json
 from flask import jsonify
 from location import getLatLngFromAddress
+from datetime import datetime
 
+datetime.now().strftime('%a')
 
 from werkzeug.contrib.cache import SimpleCache
 cache = SimpleCache()
@@ -50,10 +52,13 @@ class Shelter(object):
            'name' : self.name,
            'address': self.address,
            'lat': self.lat,
+           'daysofWeek': self.daysOfWeek,
            'long': self.long,
            'service_type': self.service_type,
            'phone': self.phone
         }
+    
+ 
         
 def make_shelter(name, address, lat, long, service_type,daysofweek,starttime,endtime,phone):
     shelter = Shelter(name, address, lat, long, service_type,daysofweek,starttime,endtime,phone)
@@ -103,11 +108,11 @@ def shelters_csv():
             
             service_type=1
             daysOfWeek=""
-            startTime=csv_row['StartTime']
+            #startTime=csv_row['StartTime']
         
-            endTime=csv_row['EndTime']
+            #endTime=csv_row['EndTime']
             phone=""
-            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
+            shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
             shelters.append(shelter)
         except:
             pass
@@ -131,7 +136,8 @@ def facilities_csv():
             lat = lat_long['latitude']
             
             service_type=2
-            daysOfWeek=""
+            daysOfWeek= ""
+            
           
             phone=csv_row['Phone Number']
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
@@ -141,6 +147,20 @@ def facilities_csv():
             print("Exception")
             pass
     return shelters
+
+import numpy as np
+def findClosestShelters(lat,long,shelters):
+    def inner_dist(shelter):
+        return shelter_dist(lat, long, shelter)
+    shelters.sort(key=lambda shelter2: inner_dist(shelter2))   
+    return shelters
+        
+ 
+def shelter_dist(lat, long, shelter):        
+    lat_shelter = float(shelter.lat)
+    long_shelter = float(shelter.long)
+    return np.power(np.power(lat-(lat_shelter),2) + np.power(long - (long_shelter),2),0.5)
+           
 
 x = shelters_csv()
 y = facilities_csv()
