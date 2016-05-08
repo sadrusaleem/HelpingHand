@@ -83,7 +83,7 @@ def csv2json(filename,fieldnames):
 
 def shelters_csv():
     shelters= []
-    reader = csv.reader(open("dataset/shelters.csv", "r"), skipinitialspace=True)
+    reader = csv.DictReader(open("dataset/shelters.csv"), skipinitialspace=True)
     for csv_row in reader:
         try:
             #line2 = line.replace("\"", "")
