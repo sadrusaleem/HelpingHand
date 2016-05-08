@@ -103,7 +103,7 @@ def shelters_csv():
             endTime=csv_row['EndTime']
             phone=""
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,startTime,endTime,phone)
-            shelters.append(shelter)
+            #shelters.append(shelter)
         except:
             pass
     return shelters
@@ -129,17 +129,13 @@ def facilities_csv():
           
             phone=csv_row['Phone Number']
             shelter = make_shelter(name, address, lat, long, service_type,daysOfWeek,"","",phone)
-            shelters.append(shelter)
+            #shelters.append(shelter)
         except:
             #import ipdb ; ipdb.set_trace()
             print("Exception")
             pass
     return shelters
-    
 
-
-shelters = shelters_csv()
-facilities = facilities_csv()
 #if __name__ == "__main__":
 #    app.run(debug=True)
 

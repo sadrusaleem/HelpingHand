@@ -2,6 +2,18 @@ from flask import Flask, jsonify
 import os
 import json
 from crossdomain import crossdomain
+from flask_test import shelters_csv, facilities_csv
+from werkzeug.contrib.cache import SimpleCache
+
+cache = SimpleCache()
+
+shelters = shelters_csv()
+import ipdb; ipdb.set_trace()
+facilities = facilities_csv()
+import ipdb; ipdb.set_trace()
+
+cache.set('shelters', shelters)
+cache.set('facilities', facilities)
 
 app = Flask(__name__)
 
@@ -18,10 +30,14 @@ def hello_world():
     
     return json.dumps(data)
 
-@app.route('/locations/input')
+@app.route('/locations')
 def hello_world2(input):
-    print input
-    return input
+    shelters = []
+
+    for shelter in cache.get('facilities'):
+        shelters.append(shelter.serialize())
+
+    return jsonify(data=shelters)
 
 if __name__ == "__main__":
     app.run(debug=True, 
