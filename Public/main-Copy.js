@@ -172,7 +172,7 @@ var posLong;
   }
 
   function createInfo(arr,marker){
-    var contentString ='<div id="content"><h2>' + arr[0] + '</h2><p><b>Address: </b>' + arr[5] + '</p><p><b>Phone Number: </b>' + arr[7] + '</p>'+
+    var contentString ='<div id="content"><h1>' + arr[0] + '</h1><p><b>Address: </b>' + arr[5] + '</p><p><b>Phone Number: </b>' + arr[7] + '</p>'+
                         '<a href="uber://?client_id=wenxPDIJbS2ghQ7CFbk5zytwWnjiWp1b&action=setPickup&pickup=my_location&dropoff[latitude]=' + arr[1] + '&dropoff[longitude]=' + arr[2] + '&dropoff[nickname]=' + arr[0] + '">Catch a Uber</div>';
 
     var infowindow = new google.maps.InfoWindow({
