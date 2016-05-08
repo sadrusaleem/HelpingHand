@@ -1,10 +1,12 @@
 from flask import Flask, jsonify
 import os
 import json
+from crossdomain import crossdomain
 
 app = Flask(__name__)
 
 @app.route('/')
+@crossdomain(origin='*')
 def hello_world():
     data = [{'name': 'Test Shelter',
             'address': '120 East 32nd St, New York',
