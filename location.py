@@ -81,5 +81,5 @@ def get_nearest_facilities(x, y):
 
     return data.json()
 
-lat_lng = getLatLngFromAddress('2634 30th St Astoria, New York')
-print(get_nearest_facilities(lat_lng['x'], lat_lng['y']))
+#lat_lng = getLatLngFromAddress('2634 30th St Astoria, New York')
+#print(get_nearest_facilities(lat_lng['x'], lat_lng['y']))
